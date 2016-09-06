@@ -1,3 +1,5 @@
-import {SeatingChart} from './seating-chart';
-// let chart = new SeatingChart();
-// chart.render();
+import {SeatingChart} from './seating-chart.js';
+ let chart = new SeatingChart();
+ chart.render();
+
+

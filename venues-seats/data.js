@@ -1,4 +1,4 @@
-const seats = {
+export const seats = {
     data: [
         {
             x: 5, y: 20
