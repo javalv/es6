@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="../traceur/traceur.js"></script>
+    <script src="../traceur/BrowserSystem.js"></script>
+    <script src="../traceur/bootstrap.js"></script>
+    <script type="module">
+        import 'index.js';
+    </script>
+    <!--<script type="module">-->
+        <!--import 'seating-chart.js';-->
+    <!--</script>-->
+    <!--<script src="../node_modules/source-map-support/amd-test/require.js"></script>-->
+    <!--<script src="../build/index.js"></script>-->
+</head>
+<body>
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="400" height="300"
+     viewBox="0 0 80 60" style="border: blue solid 1px;">
+    <rect id="bg" width="80" height="60" style="fill:#cccccc;stroke:#000000;stroke-width:0.2" transform="translate(0,0)"  />
+    <g id="all_view" >
+        <g id="g_seat" ></g>
+        <g id="g1">
+            <use id="use1" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#seat" x="1" y="1"></use>
+            <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#seat" x="3" y="1"></use>
+        </g>
+        <g id="g2">
+            <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#seat" x="77" y="59"></use>
+            <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#seat" x="79" y="57"></use>
+            <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#seat" x="79" y="59"></use>
+        </g>
+    </g>
+
+    <defs>
+        <circle id="seat" r="1"/>
+    </defs>
+</svg>
+</body>
+</html>

@@ -1,0 +1,15 @@
+{
+  "name": "demo",
+  "version": "1.0.0",
+  "description": "一个简单的示例",
+  "main": "index.js",
+  "devDependencies": {
+    "babel-cli": "^6.0.0",
+    "babel-preset-es2015": "^6.14.0"
+  },
+  "scripts": {
+    "build": "babel venues-seats -d build"
+  },
+  "author": "sam wu",
+  "license": "ISC"
+}
