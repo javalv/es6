@@ -1,3 +1,4 @@
+import {SvgOptions} from './svg-options.js';
 export class SvgDrag {
 
     constructor() {
@@ -5,13 +6,20 @@ export class SvgDrag {
         this.currentX = 0;
         this.currentY = 0;
         this.currentMatrix = 0;
+        this.svgOptions = new SvgOptions();
     }
 
     selectElement(evt) {
         this.selectedElement = evt.target;
+        console.log(this.selectedElement);
+
         this.currentX = evt.clientX;
         this.currentY = evt.clientY;
-        this.currentMatrix = this.selectedElement.getAttributeNS(null, "transform").slice(10, -1).split(',');
+
+        let attrsMap = this.svgOptions.getAttrs(this.selectedElement.getAttributeNS(null, "transform"));
+
+        this.currentMatrix = attrsMap.get('translate');
+
 
         for (var i = 0; i < this.currentMatrix.length; i++) {
             this.currentMatrix[i] = parseFloat(this.currentMatrix[i]);
@@ -25,12 +33,13 @@ export class SvgDrag {
     moveElement(evt) {
         let dx = evt.clientX - this.currentX;
         let dy = evt.clientY - this.currentY;
-        this.currentMatrix[0] += dx / 5;
-        this.currentMatrix[1] += dy / 5;
-        this.newMatrix = "translate(" + this.currentMatrix.join(',') + ")";
+        this.currentMatrix[0] += dx / 5.0;
+        this.currentMatrix[1] += dy / 5.0;
 
-        this.selectedElement.setAttributeNS(null, "transform", this.newMatrix);
-        document.getElementById("all_view").setAttributeNS(null, "transform", this.newMatrix);
+        this.svgOptions.setTransform(this.selectedElement,'translate',this.currentMatrix,false);
+
+        let all_view = document.getElementById("all_view");
+        this.svgOptions.setTransform(all_view,'translate',this.currentMatrix,false);
 
         this.currentX = evt.clientX;
         this.currentY = evt.clientY;

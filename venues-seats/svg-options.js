@@ -12,14 +12,18 @@ export class SvgOptions{
         if(cover || cover == true){
             optionsAttrs.addAttr(key,value);
         }else {
-            for (let attr of attrs.entries()) {
-                let _key = attr[0];
-                let _value = attr[1];
-                if(key == _key){
-                    optionsAttrs.addAttr(key,value);
-                }else {
-                    optionsAttrs.addAttr(_key,_value);
+            if(attrs.size > 0){
+                for (let attr of attrs.entries()) {
+                    let _key = attr[0];
+                    let _value = attr[1];
+                    if(key == _key){
+                        optionsAttrs.addAttr(key,value);
+                    }else {
+                        optionsAttrs.addAttr(_key,_value);
+                    }
                 }
+            }else {
+                optionsAttrs.addAttr(key,value);
             }
         }
 
@@ -43,19 +47,20 @@ export class SvgOptions{
     //     obj.setAttribute(attrName,attrValue);
     // }
 
-    //scale(1.5,1.5) translate(10.666666666666668 -11)
-    getAttrs(attrstr){
-        if(!attrstr || attrstr == ''){
-            return null;
-        }
+    //scale(1.5,1.5) translate(10.666666666666668,-11)
+    getAttrs(attrStr){
         let attrs = new Map();
-        let temps = attrstr.split(' ');
+        if(!attrStr || attrStr == ''){
+            return attrs;
+        }
+
+        let temps = attrStr.split(' ');
         temps.forEach(function (temp) {
             if(temp.startsWith('scale')){
-                attrs.set('scale', temp.slice(7, -1).split('[,][ ]'));
+                attrs.set('scale', temp.slice(7, -1).split(','));
             }
-            if(temp.startsWith('scale')){
-                attrs.set('translate',temp.slice(10, -1).split('[,][ ]'));
+            if(temp.startsWith('translate')){
+                attrs.set('translate',temp.slice(10, -1).split(','));
             }
         })
 
