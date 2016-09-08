@@ -14,9 +14,9 @@
      viewBox="0 0 80 60" style="border: blue solid 1px;">
     <rect id="bg" width="80" height="60" style="fill:#cccccc;stroke:#000000;stroke-width:0.2" transform="translate(0,0)"  />
     <g id="all_view" >
-        <g id="g_seat" ></g>
-        <g id="g1">
-            <use id="use1" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#seat" x="1" y="1"></use>
+        <g id="g_seat" fill="dodgerblue"></g>
+        <g id="g1" >
+            <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#seat" x="1" y="1"></use>
             <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#seat" x="3" y="1"></use>
         </g>
         <g id="g2">
@@ -29,10 +29,24 @@
     <defs>
         <circle id="seat" r="1"/>
     </defs>
+
+
+
 </svg>
 <button id="zoomOutBtn">zoomOut</button>
 <button id="zoomInBtn">zoomIn</button>
 <button id="focusBtn">focus</button>
+
+<svg id="svg-view1" xmlns="http://www.w3.org/2000/svg" version="1.1" width="800" height="600"
+     viewBox="0 0 600 600" style="border: blue solid 1px;">
+    <g id="out-line">
+    </g>
+
+    <defs>
+        <polygon id="o_id" style="fill:#cccccc;stroke:#000000;stroke-width:1"/>
+    </defs>
+
+    </svg>
 
 </body>
 </html>

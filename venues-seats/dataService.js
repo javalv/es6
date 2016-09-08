@@ -8,4 +8,8 @@ export class DataService {
         return seats.data;
     }
 
+    getOutlineData(){
+        return seats.all;
+    }
+
 }

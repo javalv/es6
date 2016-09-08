@@ -95,4 +95,35 @@ export class SeatingChart {
         this.svgOptions.setTransformOptions(bg,optionsAttrs);
     }
 
+    //创建轮廓
+    createOutline(){
+        const SVG_NS = "http://www.w3.org/2000/svg";
+        const XLINK_NS = "http://www.w3.org/1999/xlink";
+        // polygon points="534,448 545,480 468,491 461,458"
+        // var svgdoc=evt.target.ownerDocument;
+
+
+        var data = this.service.getOutlineData();
+        data.forEach(function (value,index) {
+
+            var rc = value.rc.split("|").join(" ");
+            var polygon = document.createElementNS("http://www.w3.org/2000/svg","polygon");
+            console.log(rc)
+            polygon.setAttribute("points",rc);
+            polygon.setAttribute("style","fill:#cccccc;stroke:#000000;stroke-width:1");
+            var outLine = document.getElementById('svg-view1');
+            outLine.appendChild(polygon);
+        })
+
+
+        // var g_seat = document.getElementById('out-line');
+        // var obj;
+        // data.forEach(function (o, index) {
+        //     obj = seat.create();
+        //     obj.setAttribute('x', x);
+        //     obj.setAttribute('y', y);
+        //     g_seat.appendChild(obj);
+        // })
+    }
+
 }
