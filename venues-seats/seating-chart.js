@@ -6,6 +6,7 @@ export class SeatingChart {
     constructor() {
         this.service = new DataService();
         this.seat = new Seat();
+        this.svgOptions = new SvgOptions();
     }
 
     render() {
@@ -36,7 +37,7 @@ export class SeatingChart {
      * @param vSize viewBox大小
      // * @param obj 缩放对象
      */
-    scale(center, value, vSize) {
+    focus(center, value, vSize) {
 
         let x = center.x;
         let y = center.y;
@@ -49,18 +50,46 @@ export class SeatingChart {
         let scale_y = v_size_y / (2 * value) - y;
 
         let obj = document.getElementById("all_view");
-        let svgOptions = new SvgOptions();
+
         let optionsAttrs = SvgOptionsAttrs.createOptionsAttrs();
         optionsAttrs.addAttr('scale',[value,value])
             .addAttr('translate',[scale_x,scale_y]);
-        svgOptions.setTransformOptions(obj,optionsAttrs);
+        this.svgOptions.setTransformOptions(obj,optionsAttrs);
 
         let bg = document.getElementById("bg");
-        svgOptions.setTransformOptions(bg,optionsAttrs);
+        this.svgOptions.setTransformOptions(bg,optionsAttrs);
 
     }
 
+    scale(value,vSize){
+        let obj = document.getElementById("all_view");
+        let optionsAttrs = SvgOptionsAttrs.createOptionsAttrs();
 
+        let v_size_x = vSize.x;
+        let v_size_y = vSize.y;
 
+        let attrStr = obj.getAttribute('transform');
+        let attrs = this.svgOptions.getAttrs(attrStr);
+
+        let tx = 0;
+        let ty = 0;
+        let t = attrs.get('translate');
+        if(t){
+            tx = t[0];
+            ty = t[1];
+        }
+
+        let scale_x = v_size_x / (2.0 * value) - v_size_x / 2.0 ;
+        let scale_y = v_size_y / (2.0 * value) - v_size_y / 2.0 ;
+
+        optionsAttrs.addAttr('scale',[value,value])
+            .addAttr('translate',[scale_x,scale_y]);
+
+        console.info(optionsAttrs)
+
+        this.svgOptions.setTransformOptions(obj,optionsAttrs);
+        let bg = document.getElementById("bg");
+        this.svgOptions.setTransformOptions(bg,optionsAttrs);
+    }
 
 }

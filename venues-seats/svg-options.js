@@ -56,8 +56,9 @@ export class SvgOptions{
 
         let temps = attrStr.split(' ');
         temps.forEach(function (temp) {
+            // console.log(temp);
             if(temp.startsWith('scale')){
-                attrs.set('scale', temp.slice(7, -1).split(','));
+                attrs.set('scale', temp.slice(6, -1).split(','));
             }
             if(temp.startsWith('translate')){
                 attrs.set('translate',temp.slice(10, -1).split(','));

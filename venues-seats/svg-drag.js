@@ -1,4 +1,5 @@
 import {SvgOptions} from './svg-options.js';
+import {Global} from './global.js';
 export class SvgDrag {
 
     constructor() {
@@ -31,14 +32,24 @@ export class SvgDrag {
     }
 
     moveElement(evt) {
+        let all_view = document.getElementById("all_view");
+        let attrs = this.svgOptions.getAttrs(all_view.getAttribute('transform'));
+        let s = attrs.get('scale');
+        let sx = 1;
+        let sy = 1;
+        if(s){
+            sx = s[0];
+            sy = s[1];
+        }
+
         let dx = evt.clientX - this.currentX;
         let dy = evt.clientY - this.currentY;
-        this.currentMatrix[0] += dx / 5.0;
-        this.currentMatrix[1] += dy / 5.0;
+        this.currentMatrix[0] += dx / (Global.get().pxRatio()[0] * sx);
+        this.currentMatrix[1] += dy / (Global.get().pxRatio()[1] * sy);
 
         this.svgOptions.setTransform(this.selectedElement,'translate',this.currentMatrix,false);
 
-        let all_view = document.getElementById("all_view");
+
         this.svgOptions.setTransform(all_view,'translate',this.currentMatrix,false);
 
         this.currentX = evt.clientX;
