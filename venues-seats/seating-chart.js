@@ -1,26 +1,36 @@
 import {DataService} from "./dataService.js";
 import {Seat} from './seat.js';
+import {OutLine} from './out-line.js';
 import {SvgOptions,SvgOptionsAttrs} from './svg-options.js';
+import {Global} from './global.js'
 export class SeatingChart {
 
     constructor() {
         this.service = new DataService();
-        this.seat = new Seat();
+        this.seatFactory = new Seat();
+        this.outLineFactory = new OutLine();
         this.svgOptions = new SvgOptions();
     }
 
     render() {
-        let seat = this.seat;
+        let seatFactory = this.seatFactory;
         var data = this.service.getSeats();
-        var g_seat = document.getElementById('g_seat');
+        let all_view = document.getElementById('all_view');
         var obj;
         data.forEach(function (o, index) {
-            obj = seat.create();
-            var x = (o.x + 0.5) * 2;
-            var y = (o.y + 0.5) * 2;
-            obj.setAttribute('x', x);
-            obj.setAttribute('y', y);
-            g_seat.appendChild(obj);
+            var g_seat = seatFactory.createGroup(o.id);
+            all_view.appendChild(g_seat);
+            let seats = o.seats;
+            seats.forEach(function (s) {
+                obj = seatFactory.create();
+                //var x = (s.x + 0.5) * 2;
+                //var y = (s.y + 0.5) * 2;
+                let x = s.x;
+                let y = s.y;
+                obj.setAttribute('x', x);
+                obj.setAttribute('y', y);
+                g_seat.appendChild(obj);
+            })
         })
     }
 
@@ -97,33 +107,22 @@ export class SeatingChart {
 
     //创建轮廓
     createOutline(){
-        const SVG_NS = "http://www.w3.org/2000/svg";
-        const XLINK_NS = "http://www.w3.org/1999/xlink";
-        // polygon points="534,448 545,480 468,491 461,458"
-        // var svgdoc=evt.target.ownerDocument;
 
-
+        let outLineFactory = this.outLineFactory;
         var data = this.service.getOutlineData();
+        var that = this;
         data.forEach(function (value,index) {
-
-            var rc = value.rc.split("|").join(" ");
-            var polygon = document.createElementNS("http://www.w3.org/2000/svg","polygon");
-            console.log(rc)
-            polygon.setAttribute("points",rc);
-            polygon.setAttribute("style","fill:#cccccc;stroke:#000000;stroke-width:1");
-            var outLine = document.getElementById('svg-view1');
+            let polygon = outLineFactory.create(value);
+            polygon.addEventListener('click',function(){
+                var value = 3;
+                var vSize = Global.get().getViewSize();
+                that.focus(polygon, value, vSize);
+            });
+            var outLine = document.getElementById('bg');
             outLine.appendChild(polygon);
         })
 
 
-        // var g_seat = document.getElementById('out-line');
-        // var obj;
-        // data.forEach(function (o, index) {
-        //     obj = seat.create();
-        //     obj.setAttribute('x', x);
-        //     obj.setAttribute('y', y);
-        //     g_seat.appendChild(obj);
-        // })
     }
 
 }

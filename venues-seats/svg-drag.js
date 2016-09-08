@@ -3,7 +3,7 @@ import {Global} from './global.js';
 export class SvgDrag {
 
     constructor() {
-        this.selectedElement = 0;
+        this.selectedElement = document.getElementById('bg');
         this.currentX = 0;
         this.currentY = 0;
         this.currentMatrix = 0;
@@ -11,7 +11,7 @@ export class SvgDrag {
     }
 
     selectElement(evt) {
-        this.selectedElement = evt.target;
+        //this.selectedElement = evt.target;
 
         this.currentX = evt.clientX;
         this.currentY = evt.clientY;
@@ -19,7 +19,9 @@ export class SvgDrag {
         let attrsMap = this.svgOptions.getAttrs(this.selectedElement.getAttributeNS(null, "transform"));
 
         this.currentMatrix = attrsMap.get('translate');
-
+        if(!this.currentMatrix){
+            this.currentMatrix = [0,0];
+        }
 
         for (var i = 0; i < this.currentMatrix.length; i++) {
             this.currentMatrix[i] = parseFloat(this.currentMatrix[i]);
