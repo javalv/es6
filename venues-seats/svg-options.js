@@ -67,6 +67,21 @@ export class SvgOptions{
 
         return attrs;
     }
+
+
+    getTransformAttrs(obj){
+        let attrStr = obj.getAttribute('transform');
+        return this.getAttrs(attrStr);
+    }
+
+    getTransformAttr(obj,key){
+        let attrStr = obj.getAttribute('transform');
+        let attrs = this.getAttrs(attrStr);
+        if(!attrs){
+            return null;
+        }
+        return attrs.get(key);
+    }
 }
 
 export class SvgOptionsAttrs{

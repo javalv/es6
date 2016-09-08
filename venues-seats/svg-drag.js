@@ -12,7 +12,6 @@ export class SvgDrag {
 
     selectElement(evt) {
         this.selectedElement = evt.target;
-        console.log(this.selectedElement);
 
         this.currentX = evt.clientX;
         this.currentY = evt.clientY;

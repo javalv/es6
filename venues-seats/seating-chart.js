@@ -24,37 +24,32 @@ export class SeatingChart {
         })
     }
 
-    doScale() {
-        var all_view = document.getElementById('all_view');
-        var obj = document.getElementById('g_seat');
-        this.scale(obj, 1.5, all_view);
-    }
-
     /**
      * 按缩放比例居中，根据坐标点
-     * @param center 中心点坐标
+     // * @param center 中心点坐标
+     * @param obj 选中对象
      * @param value 缩放大小值
      * @param vSize viewBox大小
      // * @param obj 缩放对象
      */
-    focus(center, value, vSize) {
+    focus(obj,value, vSize) {
 
-        let x = center.x;
-        let y = center.y;
+        var box = obj.getBBox();
+        var x = box.x + box.width / 2;
+        var y = box.y + box.height / 2;
 
         let v_size_x = vSize.x;
         let v_size_y = vSize.y;
 
         //v_size_x / 2 /value
-        let scale_x = v_size_x / (2 * value) - x;
-        let scale_y = v_size_y / (2 * value) - y;
+        let scale_x = v_size_x / (2.0 * value) - x;
+        let scale_y = v_size_y / (2.0 * value) - y;
 
-        let obj = document.getElementById("all_view");
-
+        let all_view = document.getElementById("all_view");
         let optionsAttrs = SvgOptionsAttrs.createOptionsAttrs();
         optionsAttrs.addAttr('scale',[value,value])
             .addAttr('translate',[scale_x,scale_y]);
-        this.svgOptions.setTransformOptions(obj,optionsAttrs);
+        this.svgOptions.setTransformOptions(all_view,optionsAttrs);
 
         let bg = document.getElementById("bg");
         this.svgOptions.setTransformOptions(bg,optionsAttrs);
@@ -68,8 +63,7 @@ export class SeatingChart {
         let v_size_x = vSize.x;
         let v_size_y = vSize.y;
 
-        let attrStr = obj.getAttribute('transform');
-        let attrs = this.svgOptions.getAttrs(attrStr);
+        let attrs = this.svgOptions.getTransformAttrs(obj);
 
         let tx = 0;
         let ty = 0;
@@ -79,13 +73,22 @@ export class SeatingChart {
             ty = t[1];
         }
 
-        let scale_x = v_size_x / (2.0 * value) - v_size_x / 2.0 ;
-        let scale_y = v_size_y / (2.0 * value) - v_size_y / 2.0 ;
+        var scaleAttr = this.svgOptions.getTransformAttr(obj,'scale');
+        if(!scaleAttr){
+            scaleAttr = [1,1];
+        }
 
-        optionsAttrs.addAttr('scale',[value,value])
+        //先计算想要缩放的中心点在视窗中的位置
+        let center_x = v_size_x / (2.0 * scaleAttr[0]) - tx;
+        let center_y = v_size_y / (2.0 * scaleAttr[0]) - ty;
+
+        let scaleValue = scaleAttr[0] * value;
+
+        let scale_x = v_size_x / (2.0 * scaleValue) - center_x;
+        let scale_y = v_size_y / (2.0 * scaleValue) - center_y ;
+
+        optionsAttrs.addAttr('scale',[scaleValue,scaleValue])
             .addAttr('translate',[scale_x,scale_y]);
-
-        console.info(optionsAttrs)
 
         this.svgOptions.setTransformOptions(obj,optionsAttrs);
         let bg = document.getElementById("bg");

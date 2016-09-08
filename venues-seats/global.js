@@ -28,4 +28,8 @@ export class Global{
 
     }
 
+    getViewSize(){
+        return this.viewSize;
+    }
+
 }
