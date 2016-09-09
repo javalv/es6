@@ -118,8 +118,18 @@ export class SeatingChart {
                 var vSize = Global.get().getViewSize();
                 that.focus(polygon, value, vSize);
             });
-            var outLine = document.getElementById('bg');
-            outLine.appendChild(polygon);
+            var bg = document.getElementById('bg');
+            bg.appendChild(polygon);
+
+            //小图
+            let polygon1 = outLineFactory.create(value);
+            polygon1.addEventListener('click',function(){
+                var value = 3;
+                var vSize = Global.get().getViewSize();
+                that.focus(polygon, value, vSize);
+            });
+            var nav = document.getElementById('nav');
+            nav.appendChild(polygon1);
         })
 
 
